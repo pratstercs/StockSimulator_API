@@ -1,0 +1,10 @@
+- Update current data with new data as it becomes available
+- Automatically create tables
+- Request new data if not stored in database
+- API functions
+- Serving data in useful format (metastock?)
+- Leaderboards?
+- expand to allow for specific time searching
+- tidy python
+- fix sorting issue
+- Run as service?
