@@ -5,7 +5,7 @@ dbConnection = None
 
 def testDbConnection():
 	global dbConnection
-	if dbConnection == null:
+	if dbConnection == None:
 		dbConnection = initSession()
 
 #connect to the Cassandra database
@@ -14,20 +14,24 @@ def initSession():
 	session = cluster.connect('nyse')
 	return session
 
-def getSymbol(session, symbol):
-	rows = session.execute('SELECT * FROM ' + symbol)
-	return rows
+def getSymbol(symbol):
+	rows = dbConnection.execute('SELECT * FROM ' + symbol)
+	return resultSetToArray(rows)
+
+def resultSetToArray(resultSet):
+	array = [list(row[1:]) for row in resultSet] #converts resultset (not including UUID) to array
+	return array
 
 def printRows(resultSet):
 	for row in resultSet:
 		print row[0], row[1], row[2], row[3], row[4]
 
-def arrayToDatabase(session,array):
+def arrayToDatabase(array):
 	for row in array:
 		print(row)
-		rowToDatabase(session, row)
+		rowToDatabase(dbConnection, row)
 
-def rowToDatabase(session, array):
+def rowToDatabase(array):
 	date = dateTimeToMillis(array[0])
 	op = array[1]
 	hi = array[2]
@@ -36,7 +40,7 @@ def rowToDatabase(session, array):
 	vol = int(array[5])
 	uid = genUUID(array[0])
 
-	session.execute(
+	dbConnection.execute(
 		"""
 		INSERT INTO jpm (uid, date, open, high, low, close, volume)
 		VALUES(%s, %s, %s, %s, %s, %s, %s)
