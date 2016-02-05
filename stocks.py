@@ -24,7 +24,6 @@ def getData(symbol, startDate, endDate):
 def getDataSince(symbol,startDate):
 	today = datetime.date.today()
 	endDate = str(today.year) + "-" + str(today.month) + "-" + str(today.day)
-	print(endDate)
 	return getData(symbol,startDate,endDate)
 
 def getMonthsData(symbol):
