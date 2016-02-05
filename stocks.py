@@ -19,29 +19,14 @@ def getData(symbol):
 	data = Quandl.get(
 		[s1,s2,s3,s4,s5], trim_start='2016-01-01', trim_end='2016-02-01', authtoken="VAjcx6n-wo8WLqb6VD-p")
 
-	#convert the returned Panadas DataFrame to a 2D array (so that it's actually useful)
-	array = data.to_records().tolist()
-	array = [list(i) for i in array]
-	#for row in array:
-	#	row = list(row)
-	array = convertArrayDateTimeToString(array)
+	array = data.to_records().tolist() #convert the returned Panadas DataFrame to a list of tuples
+	array = [list(i) for i in array] #converting list of tuples into list of lists
+	array = convertArrayDateTimeToString(array) #converting datetime objects to strings
 	return array
-
-def getString(symbol):
-	data = getData(symbol)
-	toReturn = ''
-	for row in data:
-		toReturn += '['
-		for item in row:
-			toReturn += '['
-			print item
-			toReturn += item
-			toReturn += ']'
-		toReturn += ']'
-	return toReturn
 
 def convertArrayDateTimeToString(array):
 	for row in array:
+		#converts datetime object to string in format "YYYY-mm-DD"
 		row[0] = row[0].isoformat('-')[:10]
 	return array
 
