@@ -20,9 +20,25 @@ def getData(symbol):
 		[s1,s2,s3,s4,s5], trim_start='2016-01-01', trim_end='2016-02-01', authtoken="VAjcx6n-wo8WLqb6VD-p")
 
 	#convert the returned Panadas DataFrame to a 2D array (so that it's actually useful)
-	array = data.to_records()
+	array = data.to_records().tolist()
+	array = [list(i) for i in array]
+	#for row in array:
+	#	row = list(row)
 	array = convertArrayDateTimeToString(array)
 	return array
+
+def getString(symbol):
+	data = getData(symbol)
+	toReturn = ''
+	for row in data:
+		toReturn += '['
+		for item in row:
+			toReturn += '['
+			print item
+			toReturn += item
+			toReturn += ']'
+		toReturn += ']'
+	return toReturn
 
 def convertArrayDateTimeToString(array):
 	for row in array:

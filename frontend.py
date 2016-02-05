@@ -1,4 +1,5 @@
 from flask import Flask, make_response
+import json
 app = Flask(__name__)
 
 import stocks
@@ -13,7 +14,7 @@ def requestSymbol(symbol):
 	print("Request recieved: " + symbol)
 	data = stocks.getData(symbol)
 	print(data)
-	res = make_response(dumps(data))
+	res = make_response(json.dumps(data))
 	print(res)
 	return res
 
