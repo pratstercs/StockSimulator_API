@@ -35,15 +35,12 @@ def getMonthsData(symbol):
 def convertQuandlToArray(data):
 	array = data.to_records().tolist() #convert the returned Panadas DataFrame to a list of tuples
 	array = [list(i) for i in array] #converting list of tuples into list of lists
-	array = convertArrayDateTimeToString(array) #converting datetime objects to strings
-	return array
 
-def convertArrayDateTimeToString(array):
 	for row in array:
 		#converts datetime object to string in format "YYYY-mm-DD"
 		row[0] = row[0].isoformat('-')[:10]
-	return array
 
+	return array
 
 def dateTimeToMillis(date):
 	epoch = datetime.datetime.utcfromtimestamp(0)
