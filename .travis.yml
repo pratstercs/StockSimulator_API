@@ -1,4 +1,6 @@
 language: python
 python:
   -  "2.7"
-install: "pip install -r Quandl numpy pandas"
+install: 
+  - pip install .
+  - pip install -r Quandl numpy pandas
