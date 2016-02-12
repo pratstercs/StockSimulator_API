@@ -14,6 +14,21 @@ def initSession():
 	session = cluster.connect('nyse')
 	return session
 
+def createTable(symbol):
+	query = """
+		CREATE TABLE IF NOT EXISTS nyse.{0} (
+		    uid timeuuid,
+		    date timestamp,
+		    close decimal,
+		    high decimal,
+		    low decimal,
+		    open decimal,
+		    volume int,
+		    PRIMARY KEY (uid, date)
+		) WITH CLUSTERING ORDER BY (date DESC);
+		""".format(symbol)
+	dbConnection.execute(query)
+
 def getSymbol(symbol):
 	rows = dbConnection.execute('SELECT * FROM ' + symbol)
 	return resultSetToArray(rows)
@@ -31,7 +46,7 @@ def arrayToDatabase(array):
 		print(row)
 		rowToDatabase(dbConnection, row)
 
-def rowToDatabase(array):
+def rowToDatabase(array, symbol):
 	date = dateTimeToMillis(array[0])
 	op = array[1]
 	hi = array[2]
@@ -42,8 +57,8 @@ def rowToDatabase(array):
 
 	dbConnection.execute(
 		"""
-		INSERT INTO jpm (uid, date, open, high, low, close, volume)
+		INSERT INTO %s (uid, date, open, high, low, close, volume)
 		VALUES(%s, %s, %s, %s, %s, %s, %s)
 		""",
-		(uid, date, op, hi, lo, cl, vol)
+		(symbol, uid, date, op, hi, lo, cl, vol)
 	)
