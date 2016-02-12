@@ -49,3 +49,4 @@ def dateTimeToMillis(date):
 
 def genUUID(date):
 	return cassandra.util.uuid_from_time(date)
+
