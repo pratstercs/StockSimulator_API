@@ -20,7 +20,7 @@ def details():
 def requestSymbol(symbol):
 	print("Request recieved: " + symbol)
 
-	data = stocks.getMonthsData(symbol)
+	data = stocks.getYearsData(symbol)
 	return makeResponse(data)
 
 @app.route('/<symbol>/<date>')

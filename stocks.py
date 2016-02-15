@@ -31,6 +31,11 @@ def getMonthsData(symbol):
 	start = today.replace(month=today.month-1) #get datetime for now - 1 month
 	return getData(symbol,start,today)
 
+def getYearsData(symbol):
+	today = datetime.date.today()
+	start = today.replace(year=today.year-1) #get datetime for now - 1 month
+	return getData(symbol,start,today)
+
 def convertQuandlToArray(data):
 	array = data.to_records().tolist() #convert the returned Panadas DataFrame to a list of tuples
 	array = [list(i) for i in array] #converting list of tuples into list of lists
