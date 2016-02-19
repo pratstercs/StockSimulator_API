@@ -14,7 +14,18 @@ def makeResponse(data):
 
 @app.route('/')
 def details():
-	return 'Insert API details here!'
+	details =
+	"""
+	StockSimulator API
+	/<symbol> gets the last year's data for the specified stock symbol (e.g. JPM)
+	/<symbol>/<startDate> gets the data for that symbol since the specified date in the format YYYYMMDD (e.g. /JPM/20151231)
+	/<symbol>/<startDate>/<endDate> gets the data for that symbol in the specified range, in the same format as above.
+
+	All queries respond with either a text array or a 500 error:
+	- Ticker is invalid
+	- Ticker is not in Quandl's data (check https://www.quandl.com/data/WIKI/<symbol>)
+	"""
+	return details
 
 @app.route('/<symbol>')
 def requestSymbol(symbol):
