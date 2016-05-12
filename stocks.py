@@ -1,6 +1,7 @@
 import Quandl
 import datetime
 import uuid
+import threading
 import numpy as np
 import pandas as pd
 
@@ -21,20 +22,30 @@ def getData(symbol, startDate, endDate):
 	
 	return convertQuandlToArray(data)
 
+def requestRecieved(symbol,startDate,endDate):
+	data = getData(symbol,startDate,endDate)
+	#thread.start_new_thread(dbFunctions.arrayToDatabase(data))
+	thread = threading.Thread(target = dbFunctions.arrayToDatabase, args = (data, symbol))
+	thread.start()
+	return data
+
 def getDataSince(symbol,startDate):
 	today = datetime.date.today()
 	endDate = str(today.year) + "-" + str(today.month) + "-" + str(today.day)
-	return getData(symbol,startDate,endDate)
+	#return getData(symbol,startDate,endDate)
+	return requestRecieved(symbol,startDate,endDate)
 
 def getMonthsData(symbol):
 	today = datetime.date.today()
 	start = today.replace(month=today.month-1) #get datetime for now - 1 month
-	return getData(symbol,start,today)
+	#return getData(symbol,startDate,endDate)
+	return requestRecieved(symbol,startDate,endDate)
 
 def getYearsData(symbol):
 	today = datetime.date.today()
 	start = today.replace(year=today.year-1) #get datetime for now - 1 month
-	return getData(symbol,start,today)
+	#return getData(symbol,startDate,endDate)
+	return requestRecieved(symbol,startDate,endDate)
 
 def convertQuandlToArray(data):
 	array = data.to_records().tolist() #convert the returned Panadas DataFrame to a list of tuples
@@ -46,12 +57,5 @@ def convertQuandlToArray(data):
 
 	return array
 
-def dateTimeToMillis(date):
-	epoch = datetime.datetime.utcfromtimestamp(0)
-	delta = date - epoch
-	delta = delta.total_seconds() * 1000
-	return int(delta)
-
 def genUUID(date):
 	return cassandra.util.uuid_from_time(date)
-

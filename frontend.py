@@ -2,6 +2,7 @@
 
 from flask import Flask, make_response
 import json
+import dbFunctions
 app = Flask(__name__)
 
 import stocks
@@ -14,16 +15,20 @@ def makeResponse(data):
 
 @app.route('/')
 def details():
-	details =
-	"""
-	StockSimulator API
-	/<symbol> gets the last year's data for the specified stock symbol (e.g. JPM)
-	/<symbol>/<startDate> gets the data for that symbol since the specified date in the format YYYYMMDD (e.g. /JPM/20151231)
-	/<symbol>/<startDate>/<endDate> gets the data for that symbol in the specified range, in the same format as above.
-
+	details = """
+	<h1>StockSimulator API</h1>
+	<p>
+	<code>/[symbol]</code> gets the last year's data for the specified stock symbol (e.g. JPM)
+	<br />
+	<code>/[symbol]/[startDate]</code> gets the data for that symbol since the specified date in the format YYYYMMDD (e.g. /JPM/20151231)
+	<br />
+	<code>/[symbol]/[startDate]/[endDate]</code> gets the data for that symbol in the specified range, in the same format as above.
+	<p/>
 	All queries respond with either a text array or a 500 error:
-	- Ticker is invalid
-	- Ticker is not in Quandl's data (check https://www.quandl.com/data/WIKI/<symbol>)
+	<ul>
+	<li>Ticker is invalid</li>
+	<li>Ticker is not in Quandl's data (check https://www.quandl.com/data/WIKI/<symbol>)</li>
+	<ul>
 	"""
 	return details
 
