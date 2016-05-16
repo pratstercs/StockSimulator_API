@@ -56,5 +56,14 @@ def requestSymbolDateRange(symbol, startDate, endDate):
 	data = stocks.getData(symbol,startDate,endDate)
 	return makeResponse(data)
 
+@app.route('/<symbol>/<startDate>/<endDate>/c')
+def requestChange(symbol, startDate, endDate):
+	print("Request recieved: " + symbol + ", startDate: " + startDate + ", endDate: " + endDate + " percentage change")
+	start = formatDate(startDate)
+	end = formatDate(endDate)
+
+	data = stocks.getChange(symbol,startDate,endDate)
+	return makeResponse(data)
+
 if __name__ == "__main__":
     app.run('0.0.0.0') #run on requests from all IPs, not just localhost
